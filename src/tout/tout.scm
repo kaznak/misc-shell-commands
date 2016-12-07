@@ -1,6 +1,7 @@
 
-(use extras)
-(use posix)
+;;(use posix)
+;;(use extras)
+(use posix-extras)
 
 (define (%separate-stime-line l)
   (call-with-input-string
