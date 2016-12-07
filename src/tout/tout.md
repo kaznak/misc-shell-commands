@@ -1,7 +1,14 @@
 
 # tout : Timed output
 
-tout は cat コマンドのように入力を読み込みそのまま出力します。
-ただし、各行を出力する際にあらかじめ定められた秒数か、
-あるいは各行の先頭1フィールド(スペース区切り)で指定された秒数待って、
-出力を行ないます。
+This tout command reads input a line, wait some seconds, and output it.
+The waiting time is specified by invocation argument
+or 1st one field(spece delimited) of each other.
+
+## Installation
+
+Install posix-extras.
+
+```shell
+chicken-install posix-extras
+```
