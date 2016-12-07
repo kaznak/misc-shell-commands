@@ -12,3 +12,19 @@ Install posix-extras.
 ```shell
 chicken-install posix-extras
 ```
+## Usage
+
+Execute below script on Raspberry Pi.
+
+```shell
+#!/bin/sh
+
+echo "4" > /sys/class/gpio/export
+echo "out" > /sys/class/gpio/gpio4/direction
+
+yes '1 1
+2 0'		|
+tout		|
+tr -d ' '	|
+dd bs=2 > /sys/class/gpio/gpio4/value
+```
