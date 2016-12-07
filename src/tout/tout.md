@@ -3,7 +3,7 @@
 
 This tout command reads input a line, wait some seconds, and output it.
 The waiting time is specified by invocation argument
-or 1st one field(spece delimited) of each other.
+or 1st one field(space delimited) of each other.
 
 ## Installation
 
