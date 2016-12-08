@@ -7,11 +7,13 @@ or 1st one field(space delimited) of each other.
 
 ## Installation
 
-Install posix-extras.
+Install posix-extras and Compile.
 
 ```shell
 chicken-install posix-extras
+csc tout.scm
 ```
+
 ## Usage
 
 Execute below script on Raspberry Pi.
