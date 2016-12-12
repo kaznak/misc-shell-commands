@@ -16,30 +16,32 @@
 	   (cons t l) )
        ))))
 
-(define (timed-out line)
-  (let((x(%separate-stime-line line))) ; this should be try-catch.
-    (sleep (car x))
-    (cdr x) ))
+(define (timed-out delay line)
+  (let*((sleep-line (%separate-stime-line line)) ; this should be try-catch.
+        (new-delay  (sleep (- (car sleep-line) delay))) )
+    (cons new-delay (cdr sleep-line)) ))
 
-(define (timed-out-static s line)
-  (sleep s)
-  line  )
+(define (timed-out-static sleep-sec deleay line)
+  (let*((new-delay  (sleep (- sleep-sec delay))))
+    (cons new-delay (cdr sleep-line)) ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (process-line func iport oport)
-  (let loop ((l (read-line iport)))
-    (cond ((string? l)
-	   (write-line (func l) oport)
-	   (loop (read-line iport)) )
-	  ((eq? #!eof l) 0)
+(define (process-line func init-state iport oport)
+  (let loop ((state init-state)(line (read-line iport)))
+    (cond ((string? line)
+	   (let((x (func state line)))
+	     (write-line (cdr x) oport)
+	     (loop (car x) (read-line iport)) ))
+	  ((eq? #!eof line) 0)
 	  (else 1) )))
 
-(define (%static-read-sleep-out s iport oport)
-  (process-line (lambda(l)(timed-out-static s l)) iport oport) )
+(define (%read-sleep-out-static sleep-sec iport oport)
+  (process-line (lambda(delay line)(timed-out-static sleep-sec delay line))
+		0 iport oport ))
 
 (define (%read-sleep-out iport oport)
-  (process-line timed-out iport oport) )
+  (process-line timed-out 0 iport oport) )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (%static-read-sleep-out 1 (current-input-port) (current-output-port))
